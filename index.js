@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#0f0f0f" />
+  <title>SOK Treningi – Logowanie</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            sok: {
+              bg: '#0f0f0f',
+              card: '#1a1a1a',
+              border: '#2a2a2a',
+              accent: '#e11d48',
+              muted: '#a1a1aa'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="text-white font-sans antialiased min-h-screen">
+
+  <div class="min-h-screen flex flex-col items-center justify-center px-6">
+    <div class="w-full max-w-sm">
+      <div class="text-center mb-10">
+        <div class="w-20 h-20 bg-sok-accent rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-rose-900/40">
+          <i class="fa-solid fa-hand-fist text-3xl"></i>
+        </div>
+        <h1 class="text-2xl font-bold tracking-tight">SOK Treningi</h1>
+        <p class="text-sok-muted text-sm mt-1">Sporty walki • Twoje treningi</p>
+      </div>
+
+      <div class="space-y-4">
+        <div>
+          <label class="text-xs text-sok-muted mb-1 block">Email lub telefon</label>
+          <input id="login-input" type="text" placeholder="np. 500 000 000"
+            class="w-full bg-sok-card border border-sok-border rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:border-sok-accent transition" />
+        </div>
+        <div>
+          <label class="text-xs text-sok-muted mb-1 block">Hasło</label>
+          <input id="login-pass" type="password" placeholder="••••••••"
+            class="w-full bg-sok-card border border-sok-border rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:border-sok-accent transition" />
+        </div>
+        <button onclick="doLogin()" class="w-full bg-sok-accent hover:bg-rose-600 active:scale-[0.98] transition rounded-xl py-3.5 font-semibold text-sm mt-2">
+          Zaloguj się
+        </button>
+      </div>
+
+      <div class="mt-8 text-center">
+        <p class="text-xs text-sok-muted mb-3">Demo – wybierz rolę:</p>
+        <div class="flex gap-3">
+          <a href="client.js" class="flex-1 card rounded-xl py-3 text-sm font-medium border-sok-border hover:border-sok-accent transition text-center">
+            <i class="fa-solid fa-user mr-2"></i>Klient
+          </a>
+          <a href="admin.js" class="flex-1 card rounded-xl py-3 text-sm font-medium border-sok-border hover:border-sok-accent transition text-center">
+            <i class="fa-solid fa-shield-halved mr-2"></i>Admin
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function doLogin() {
+      const input = document.getElementById('login-input').value.trim().toLowerCase();
+      if (input.includes('admin') || input === 'admin') {
+        window.location.href = 'admin.js';
+      } else {
+        window.location.href = 'client.js';
+      }
+    }
+  </script>
+</body>
+</html>
