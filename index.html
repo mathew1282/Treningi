@@ -57,10 +57,10 @@
       <div class="mt-8 text-center">
         <p class="text-xs text-sok-muted mb-3">Demo – wybierz rolę:</p>
         <div class="flex gap-3">
-          <a href="client.js" class="flex-1 card rounded-xl py-3 text-sm font-medium border-sok-border hover:border-sok-accent transition text-center">
+          <a href="client.html" class="flex-1 card rounded-xl py-3 text-sm font-medium border-sok-border hover:border-sok-accent transition text-center">
             <i class="fa-solid fa-user mr-2"></i>Klient
           </a>
-          <a href="admin.js" class="flex-1 card rounded-xl py-3 text-sm font-medium border-sok-border hover:border-sok-accent transition text-center">
+          <a href="admin.html" class="flex-1 card rounded-xl py-3 text-sm font-medium border-sok-border hover:border-sok-accent transition text-center">
             <i class="fa-solid fa-shield-halved mr-2"></i>Admin
           </a>
         </div>
@@ -70,11 +70,12 @@
 
   <script>
     function doLogin() {
+      // Na razie proste przekierowanie – później prawdziwe logowanie
       const input = document.getElementById('login-input').value.trim().toLowerCase();
       if (input.includes('admin') || input === 'admin') {
-        window.location.href = 'admin.js';
+        window.location.href = 'admin.html';
       } else {
-        window.location.href = 'client.js';
+        window.location.href = 'client.html';
       }
     }
   </script>
