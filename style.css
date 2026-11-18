@@ -1,22 +1,26 @@
-/* ===== SOK Treningi – wspólne style ===== */
+/* ===== SOK Treningi – wspólne style (wyrazisty kontrast) ===== */
+
 * {
   -webkit-tap-highlight-color: transparent;
   box-sizing: border-box;
 }
 
 body {
-  background: #0f0f0f;
+  background: #0a0a0a;
   overscroll-behavior: none;
   margin: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  color: #fff;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: #f5f5f5;
   min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
 }
 
+/* Bezpieczny obszar na iPhonie */
 .safe-bottom {
   padding-bottom: env(safe-area-inset-bottom);
 }
 
+/* Przełączanie widoków */
 .view {
   display: none;
 }
@@ -24,34 +28,122 @@ body {
   display: block;
 }
 
+/* Dolna nawigacja – aktywny element */
+.nav-item {
+  color: #9ca3af;
+  transition: color 0.15s ease, transform 0.15s ease;
+}
 .nav-item.active {
-  color: #e11d48;
+  color: #f43f5e;
 }
 .nav-item.active i {
-  transform: scale(1.1);
+  transform: scale(1.15);
 }
 
+/* Przyciski slotów */
 .slot-btn:active {
-  transform: scale(0.97);
+  transform: scale(0.96);
 }
 
+/* Karty – wyraźne tło i obramowanie */
 .card {
-  background: #1a1a1a;
-  border: 1px solid #2a2a2a;
+  background: #161616;
+  border: 1px solid #2e2e2e;
+  color: #f5f5f5;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
 }
 
+/* Ukrycie scrollbara */
 ::-webkit-scrollbar {
   width: 0;
   height: 0;
 }
 
-/* Kolory (używane też przez Tailwind) */
+/* ===== Zmienne kolorów ===== */
 :root {
-  --sok-bg: #0f0f0f;
-  --sok-card: #1a1a1a;
-  --sok-border: #2a2a2a;
-  --sok-accent: #e11d48;
-  --sok-muted: #a1a1aa;
+  --sok-bg: #0a0a0a;
+  --sok-card: #161616;
+  --sok-border: #2e2e2e;
+  --sok-accent: #f43f5e;          /* bardziej żywy róż */
+  --sok-accent-hover: #e11d48;
+  --sok-muted: #9ca3af;           /* jaśniejszy szary – lepszy kontrast */
+  --sok-text: #f5f5f5;
   --sok-success: #22c55e;
   --sok-warning: #eab308;
+  --sok-on-light: #111111;        /* tekst na jasnym tle */
+}
+
+/* ===== Tekst na jasnym / białym tle ===== */
+/* Gdy coś ma białe lub jasne tło – tekst musi być ciemny */
+.bg-white,
+.bg-gray-50,
+.bg-gray-100,
+.bg-sok-success,
+[class*="bg-emerald"],
+[class*="bg-green"] {
+  color: #111111 !important;
+}
+
+/* Przyciski sukcesu (zielone) – czarny tekst dla kontrastu */
+.bg-sok-success,
+.bg-emerald-500,
+.bg-green-500 {
+  color: #0a0a0a !important;
+  font-weight: 600;
+}
+
+/* Linki i akcenty */
+a {
+  color: #f43f5e;
+  text-decoration: none;
+}
+a:active {
+  opacity: 0.85;
+}
+
+/* Inputy – lepszy kontrast */
+input,
+textarea,
+select {
+  color: #f5f5f5 !important;
+  background-color: #161616 !important;
+  border-color: #3f3f46 !important;
+}
+input::placeholder,
+textarea::placeholder {
+  color: #71717a !important;
+  opacity: 1;
+}
+input:focus,
+textarea:focus {
+  border-color: #f43f5e !important;
+  outline: none;
+}
+
+/* Nagłówki – mocniejsza waga */
+h1, h2, h3, h4 {
+  color: #fafafa;
+  font-weight: 600;
+}
+
+/* Małe etykiety */
+.text-sok-muted,
+label {
+  color: #9ca3af !important;
+}
+
+/* Toast i elementy powiadomień */
+#toast {
+  background: #1c1c1c;
+  border: 1px solid #3f3f46;
+  color: #f5f5f5;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+/* Aktywny chip dnia */
+.day-chip.active {
+  background: #f43f5e !important;
+  color: #ffffff !important;
+  border-color: transparent !important;
+  font-weight: 600;
 }
