@@ -1,0 +1,57 @@
+/* ===== SOK Treningi – wspólne style ===== */
+* {
+  -webkit-tap-highlight-color: transparent;
+  box-sizing: border-box;
+}
+
+body {
+  background: #0f0f0f;
+  overscroll-behavior: none;
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #fff;
+  min-height: 100vh;
+}
+
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.view {
+  display: none;
+}
+.view.active {
+  display: block;
+}
+
+.nav-item.active {
+  color: #e11d48;
+}
+.nav-item.active i {
+  transform: scale(1.1);
+}
+
+.slot-btn:active {
+  transform: scale(0.97);
+}
+
+.card {
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+}
+
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+/* Kolory (używane też przez Tailwind) */
+:root {
+  --sok-bg: #0f0f0f;
+  --sok-card: #1a1a1a;
+  --sok-border: #2a2a2a;
+  --sok-accent: #e11d48;
+  --sok-muted: #a1a1aa;
+  --sok-success: #22c55e;
+  --sok-warning: #eab308;
+}
