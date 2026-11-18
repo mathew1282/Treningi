@@ -33,6 +33,7 @@
 
   <div class="min-h-screen flex flex-col max-w-lg mx-auto relative">
 
+    <!-- Header -->
     <header class="sticky top-0 z-40 bg-sok-bg/95 backdrop-blur border-b border-sok-border px-4 py-3 flex items-center justify-between">
       <div>
         <h2 id="header-title" class="font-semibold text-lg leading-tight">Kalendarz</h2>
@@ -43,45 +44,38 @@
       </button>
     </header>
 
+    <!-- Content -->
     <main class="flex-1 overflow-y-auto pb-24">
 
+      <!-- Kalendarz -->
       <div id="admin-kalendarz" class="view active px-4 pt-4">
         <div class="flex items-center justify-between mb-4">
-          <h3 class="font-semibold">Listopad 2026</h3>
+          <h3 id="cal-month-label" class="font-semibold">Listopad 2026</h3>
           <div class="flex gap-2">
-            <button class="w-8 h-8 rounded-lg bg-sok-card border border-sok-border flex items-center justify-center text-sm"><i class="fa-solid fa-chevron-left"></i></button>
-            <button class="w-8 h-8 rounded-lg bg-sok-card border border-sok-border flex items-center justify-center text-sm"><i class="fa-solid fa-chevron-right"></i></button>
+            <button onclick="changeMonth(-1)" class="w-8 h-8 rounded-lg bg-sok-card border border-sok-border flex items-center justify-center text-sm"><i class="fa-solid fa-chevron-left"></i></button>
+            <button onclick="changeMonth(1)" class="w-8 h-8 rounded-lg bg-sok-card border border-sok-border flex items-center justify-center text-sm"><i class="fa-solid fa-chevron-right"></i></button>
           </div>
         </div>
 
-        <div class="grid grid-cols-7 gap-1 text-center text-xs mb-5">
-          <div class="text-sok-muted py-1">Pn</div><div class="text-sok-muted py-1">Wt</div><div class="text-sok-muted py-1">Śr</div>
-          <div class="text-sok-muted py-1">Cz</div><div class="text-sok-muted py-1">Pt</div><div class="text-sok-muted py-1">Sb</div><div class="text-sok-muted py-1">Nd</div>
-          <div class="py-2 text-sok-muted">16</div>
-          <div class="py-2 bg-sok-accent/20 text-sok-accent rounded-lg font-semibold relative">17
-            <span class="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 bg-sok-accent rounded-full"></span>
-          </div>
-          <div class="py-2 text-sok-muted">18</div>
-          <div class="py-2 bg-emerald-500/20 text-emerald-400 rounded-lg font-semibold relative">19
-            <span class="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 bg-emerald-400 rounded-full"></span>
-          </div>
-          <div class="py-2 text-sok-muted">20</div>
-          <div class="py-2 bg-emerald-500/20 text-emerald-400 rounded-lg font-semibold relative">21
-            <span class="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 bg-emerald-400 rounded-full"></span>
-          </div>
-          <div class="py-2 text-sok-muted">22</div>
+        <div id="calendar-grid" class="grid grid-cols-7 gap-1 text-center text-xs mb-5">
+          <!-- rendered by JS -->
         </div>
 
-        <div class="mb-4">
-          <button onclick="showAddShift()" class="w-full bg-sok-accent hover:bg-rose-600 rounded-xl py-3.5 text-sm font-semibold flex items-center justify-center gap-2">
-            <i class="fa-solid fa-plus"></i> Dodaj zmianę / sloty
+        <div class="flex gap-2 mb-4">
+          <button onclick="openShiftModal()" class="flex-1 bg-sok-accent hover:bg-rose-600 rounded-xl py-3 text-sm font-semibold flex items-center justify-center gap-2">
+            <i class="fa-solid fa-plus"></i> Zmiana
+          </button>
+          <button onclick="openTemplateModal()" class="flex-1 bg-sok-card border border-sok-border rounded-xl py-3 text-sm font-semibold flex items-center justify-center gap-2">
+            <i class="fa-solid fa-magic"></i> Szablon
           </button>
         </div>
 
-        <h4 class="text-sm text-sok-muted mb-3">Dzisiejsze sloty (17.11)</h4>
+        <h4 class="text-sm text-sok-muted mb-3" id="selected-day-label">Wybierz dzień</h4>
         <div class="space-y-2" id="admin-slots"></div>
+        <div id="day-shift-info" class="mt-3 text-sm text-sok-muted"></div>
       </div>
 
+      <!-- Zapisy -->
       <div id="admin-zapisy" class="view px-4 pt-4">
         <div class="flex gap-2 mb-4">
           <button class="flex-1 py-2 rounded-xl text-sm font-medium bg-sok-accent text-white">Oczekujące (3)</button>
@@ -90,6 +84,7 @@
         <div class="space-y-3" id="pending-list"></div>
       </div>
 
+      <!-- Klienci -->
       <div id="admin-klienci" class="view px-4 pt-4">
         <div class="relative mb-4">
           <i class="fa-solid fa-search absolute left-3 top-1/2 -translate-y-1/2 text-sok-muted text-sm"></i>
@@ -98,6 +93,7 @@
         <div class="space-y-2" id="clients-list"></div>
       </div>
 
+      <!-- Materiały -->
       <div id="admin-materialy" class="view px-4 pt-4">
         <button class="w-full border-2 border-dashed border-sok-border rounded-2xl py-8 flex flex-col items-center justify-center text-sok-muted mb-5 hover:border-sok-accent transition">
           <i class="fa-solid fa-cloud-arrow-up text-2xl mb-2"></i>
@@ -115,6 +111,7 @@
         </div>
       </div>
 
+      <!-- Ustawienia -->
       <div id="admin-ustawienia" class="view px-4 pt-4">
         <div class="space-y-3">
           <button class="w-full card rounded-xl p-4 flex items-center gap-3 text-left">
@@ -149,6 +146,7 @@
 
     </main>
 
+    <!-- Bottom Navigation -->
     <nav class="fixed bottom-0 left-0 right-0 max-w-lg mx-auto bg-sok-bg/95 backdrop-blur border-t border-sok-border safe-bottom z-50">
       <div class="flex justify-around py-2">
         <button onclick="showView('admin-kalendarz')" class="nav-item active flex flex-col items-center gap-0.5 w-16 py-1 text-sok-muted" data-view="admin-kalendarz">
@@ -175,6 +173,83 @@
     </nav>
   </div>
 
+  <!-- Modal: Ustaw zmianę -->
+  <div id="modal-shift" class="hidden fixed inset-0 z-[100] flex items-end sm:items-center justify-center">
+    <div class="absolute inset-0 bg-black/70" onclick="closeShiftModal()"></div>
+    <div class="relative bg-sok-card w-full max-w-lg rounded-t-3xl sm:rounded-2xl p-5 border border-sok-border max-h-[90vh] overflow-y-auto">
+      <h3 class="font-semibold text-lg mb-1">Ustaw zmianę</h3>
+      <p class="text-sm text-sok-muted mb-4" id="shift-modal-date">—</p>
+
+      <div class="space-y-4">
+        <div>
+          <label class="text-xs text-sok-muted mb-1.5 block">Typ dnia</label>
+          <div class="flex gap-2">
+            <button type="button" data-type="dzien" onclick="setShiftType('dzien')" class="shift-type-btn flex-1 py-2.5 rounded-xl text-sm font-medium border border-sok-border bg-sok-accent text-white">Dniówka</button>
+            <button type="button" data-type="noc" onclick="setShiftType('noc')" class="shift-type-btn flex-1 py-2.5 rounded-xl text-sm font-medium border border-sok-border text-sok-muted">Nocka</button>
+            <button type="button" data-type="wolne" onclick="setShiftType('wolne')" class="shift-type-btn flex-1 py-2.5 rounded-xl text-sm font-medium border border-sok-border text-sok-muted">Wolne</button>
+          </div>
+        </div>
+
+        <div id="work-hours-section">
+          <label class="text-xs text-sok-muted mb-1.5 block">Godziny pracy</label>
+          <div class="flex gap-2 items-center">
+            <input type="time" id="work-from" value="07:00" class="flex-1 bg-sok-bg border border-sok-border rounded-xl px-3 py-2.5 text-sm" />
+            <span class="text-sok-muted">–</span>
+            <input type="time" id="work-to" value="19:00" class="flex-1 bg-sok-bg border border-sok-border rounded-xl px-3 py-2.5 text-sm" />
+          </div>
+        </div>
+
+        <div id="train-hours-section">
+          <label class="text-xs text-sok-muted mb-1.5 block">Godziny dostępne na treningi (1h)</label>
+          <p class="text-[11px] text-sok-muted mb-2">Zaznacz godziny, w których klienci mogą się zapisywać. Bez zaznaczenia – dzień zablokowany.</p>
+          <div id="train-slots-grid" class="grid grid-cols-4 gap-2">
+            <!-- filled by JS -->
+          </div>
+        </div>
+      </div>
+
+      <div class="flex gap-3 mt-6">
+        <button onclick="closeShiftModal()" class="flex-1 py-3 rounded-xl border border-sok-border text-sm font-medium">Anuluj</button>
+        <button onclick="saveShift()" class="flex-1 py-3 rounded-xl bg-sok-accent text-sm font-semibold">Zapisz</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Szablon automatyczny -->
+  <div id="modal-template" class="hidden fixed inset-0 z-[100] flex items-end sm:items-center justify-center">
+    <div class="absolute inset-0 bg-black/70" onclick="closeTemplateModal()"></div>
+    <div class="relative bg-sok-card w-full max-w-lg rounded-t-3xl sm:rounded-2xl p-5 border border-sok-border max-h-[90vh] overflow-y-auto">
+      <h3 class="font-semibold text-lg mb-1">Szablon grafiku</h3>
+      <p class="text-sm text-sok-muted mb-4">Dniówka → Nocka → Wolne → Wolne</p>
+
+      <div class="space-y-4">
+        <div>
+          <label class="text-xs text-sok-muted mb-1.5 block">Od daty</label>
+          <input type="date" id="tpl-start" class="w-full bg-sok-bg border border-sok-border rounded-xl px-3 py-2.5 text-sm" />
+        </div>
+        <div>
+          <label class="text-xs text-sok-muted mb-1.5 block">Liczba cykli (1 cykl = 4 dni)</label>
+          <input type="number" id="tpl-cycles" min="1" max="30" value="4" class="w-full bg-sok-bg border border-sok-border rounded-xl px-3 py-2.5 text-sm" />
+          <p class="text-[11px] text-sok-muted mt-1">np. 4 cykle = 16 dni do przodu</p>
+        </div>
+        <div>
+          <label class="text-xs text-sok-muted mb-1.5 block">Dniówka – godziny treningowe</label>
+          <div id="tpl-dzien-slots" class="grid grid-cols-4 gap-2"></div>
+        </div>
+        <div>
+          <label class="text-xs text-sok-muted mb-1.5 block">Nocka – godziny treningowe (od 19:00)</label>
+          <div id="tpl-noc-slots" class="grid grid-cols-4 gap-2"></div>
+        </div>
+      </div>
+
+      <div class="flex gap-3 mt-6">
+        <button onclick="closeTemplateModal()" class="flex-1 py-3 rounded-xl border border-sok-border text-sm font-medium">Anuluj</button>
+        <button onclick="applyTemplate()" class="flex-1 py-3 rounded-xl bg-sok-accent text-sm font-semibold">Zastosuj</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
   <div id="toast" class="hidden fixed top-16 left-1/2 -translate-x-1/2 z-[110] bg-sok-card border border-sok-border px-4 py-2.5 rounded-xl text-sm shadow-xl flex items-center gap-2">
     <i class="fa-solid fa-check text-sok-success"></i>
     <span id="toast-text">Zapisano</span>
