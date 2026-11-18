@@ -12,11 +12,13 @@
         extend: {
           colors: {
             sok: {
-              bg: '#0f0f0f',
-              card: '#1a1a1a',
-              border: '#2a2a2a',
-              accent: '#e11d48',
-              muted: '#a1a1aa'
+              bg: '#0a0a0a',
+              card: '#161616',
+              border: '#2e2e2e',
+              accent: '#f43f5e',
+              muted: '#9ca3af',
+              success: '#22c55e',
+              warning: '#eab308'
             }
           }
         }
@@ -57,10 +59,10 @@
       <div class="mt-8 text-center">
         <p class="text-xs text-sok-muted mb-3">Demo – wybierz rolę:</p>
         <div class="flex gap-3">
-          <a href="client.html" class="flex-1 card rounded-xl py-3 text-sm font-medium border-sok-border hover:border-sok-accent transition text-center">
+          <a href="client.js" class="flex-1 card rounded-xl py-3 text-sm font-medium border-sok-border hover:border-sok-accent transition text-center">
             <i class="fa-solid fa-user mr-2"></i>Klient
           </a>
-          <a href="admin.html" class="flex-1 card rounded-xl py-3 text-sm font-medium border-sok-border hover:border-sok-accent transition text-center">
+          <a href="admin.js" class="flex-1 card rounded-xl py-3 text-sm font-medium border-sok-border hover:border-sok-accent transition text-center">
             <i class="fa-solid fa-shield-halved mr-2"></i>Admin
           </a>
         </div>
@@ -70,12 +72,11 @@
 
   <script>
     function doLogin() {
-      // Na razie proste przekierowanie – później prawdziwe logowanie
       const input = document.getElementById('login-input').value.trim().toLowerCase();
       if (input.includes('admin') || input === 'admin') {
-        window.location.href = 'admin.html';
+        window.location.href = 'admin.js';
       } else {
-        window.location.href = 'client.html';
+        window.location.href = 'client.js';
       }
     }
   </script>
