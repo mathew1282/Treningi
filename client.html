@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#0f0f0f" />
+  <title>SOK Treningi – Klient</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            sok: {
+              bg: '#0f0f0f',
+              card: '#1a1a1a',
+              border: '#2a2a2a',
+              accent: '#e11d48',
+              accent2: '#f97316',
+              muted: '#a1a1aa',
+              success: '#22c55e',
+              warning: '#eab308'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="text-white font-sans antialiased min-h-screen">
+
+  <div class="min-h-screen flex flex-col max-w-lg mx-auto relative">
+
+    <!-- Header -->
+    <header class="sticky top-0 z-40 bg-sok-bg/95 backdrop-blur border-b border-sok-border px-4 py-3 flex items-center justify-between">
+      <div>
+        <h2 id="header-title" class="font-semibold text-lg leading-tight">Zapisz się</h2>
+        <p id="header-sub" class="text-xs text-sok-muted">Wybierz termin</p>
+      </div>
+      <button onclick="logout()" class="w-9 h-9 rounded-full bg-sok-card border border-sok-border flex items-center justify-center text-sok-muted">
+        <i class="fa-solid fa-right-from-bracket text-sm"></i>
+      </button>
+    </header>
+
+    <!-- Content -->
+    <main class="flex-1 overflow-y-auto pb-24">
+
+      <!-- Zapisz się -->
+      <div id="client-zapisz" class="view active px-4 pt-4">
+        <div class="mb-4">
+          <p class="text-sm text-sok-muted mb-3">Dostępne terminy w najbliższych dniach</p>
+          <div class="flex gap-2 overflow-x-auto pb-2 -mx-1 px-1">
+            <button class="day-chip active shrink-0 px-4 py-2 rounded-full text-sm font-medium bg-sok-accent text-white">Dziś</button>
+            <button class="day-chip shrink-0 px-4 py-2 rounded-full text-sm font-medium bg-sok-card border border-sok-border text-sok-muted">Jutro</button>
+            <button class="day-chip shrink-0 px-4 py-2 rounded-full text-sm font-medium bg-sok-card border border-sok-border text-sok-muted">Śr 19</button>
+            <button class="day-chip shrink-0 px-4 py-2 rounded-full text-sm font-medium bg-sok-card border border-sok-border text-sok-muted">Czw 20</button>
+            <button class="day-chip shrink-0 px-4 py-2 rounded-full text-sm font-medium bg-sok-card border border-sok-border text-sok-muted">Pt 21</button>
+          </div>
+        </div>
+        <div class="space-y-3" id="slots-list"></div>
+      </div>
+
+      <!-- Moje treningi -->
+      <div id="client-moje" class="view px-4 pt-4">
+        <div class="space-y-3" id="my-trainings"></div>
+      </div>
+
+      <!-- Historia + Karnet -->
+      <div id="client-historia" class="view px-4 pt-4">
+        <div class="card rounded-2xl p-4 mb-5">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-sm text-sok-muted">Twój karnet</span>
+            <span class="text-xs bg-sok-success/20 text-sok-success px-2 py-0.5 rounded-full">Aktywny</span>
+          </div>
+          <div class="flex items-end gap-2">
+            <span class="text-4xl font-bold">7</span>
+            <span class="text-sok-muted text-sm mb-1">/ 10 wejść</span>
+          </div>
+          <div class="mt-3 h-2 bg-sok-border rounded-full overflow-hidden">
+            <div class="h-full bg-sok-accent rounded-full" style="width: 70%"></div>
+          </div>
+        </div>
+        <h3 class="text-sm font-medium text-sok-muted mb-3">Historia treningów</h3>
+        <div class="space-y-2" id="history-list"></div>
+      </div>
+
+      <!-- Galeria -->
+      <div id="client-galeria" class="view px-4 pt-4">
+        <p class="text-sm text-sok-muted mb-4">Zdjęcia i filmy z treningów</p>
+        <div class="grid grid-cols-2 gap-3">
+          <div class="aspect-square rounded-xl bg-sok-card border border-sok-border flex items-center justify-center text-sok-muted">
+            <i class="fa-solid fa-image text-2xl"></i>
+          </div>
+          <div class="aspect-square rounded-xl bg-sok-card border border-sok-border flex items-center justify-center text-sok-muted">
+            <i class="fa-solid fa-video text-2xl"></i>
+          </div>
+          <div class="aspect-square rounded-xl bg-sok-card border border-sok-border flex items-center justify-center text-sok-muted">
+            <i class="fa-solid fa-image text-2xl"></i>
+          </div>
+          <div class="aspect-square rounded-xl bg-sok-card border border-sok-border flex items-center justify-center text-sok-muted">
+            <i class="fa-solid fa-image text-2xl"></i>
+          </div>
+        </div>
+        <p class="text-center text-xs text-sok-muted mt-6">Materiałów dodaje trener</p>
+      </div>
+
+      <!-- Profil -->
+      <div id="client-profil" class="view px-4 pt-4">
+        <div class="flex flex-col items-center mb-6">
+          <div class="w-24 h-24 rounded-full bg-sok-card border-2 border-sok-border flex items-center justify-center mb-3 relative">
+            <i class="fa-solid fa-user text-3xl text-sok-muted"></i>
+            <button class="absolute bottom-0 right-0 w-8 h-8 bg-sok-accent rounded-full flex items-center justify-center text-xs">
+              <i class="fa-solid fa-camera"></i>
+            </button>
+          </div>
+          <h3 class="font-semibold text-lg">Jan Kowalski</h3>
+          <p class="text-sm text-sok-muted">Klient od marca 2025</p>
+        </div>
+        <div class="space-y-3">
+          <div class="card rounded-xl p-4">
+            <label class="text-xs text-sok-muted">Numer telefonu</label>
+            <p class="font-medium mt-0.5">500 123 456</p>
+          </div>
+          <div class="card rounded-xl p-4">
+            <label class="text-xs text-sok-muted">Email</label>
+            <p class="font-medium mt-0.5">jan@email.com</p>
+          </div>
+          <button class="w-full card rounded-xl py-3.5 text-sm font-medium text-sok-muted">
+            Zmień hasło
+          </button>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="fixed bottom-0 left-0 right-0 max-w-lg mx-auto bg-sok-bg/95 backdrop-blur border-t border-sok-border safe-bottom z-50">
+      <div class="flex justify-around py-2">
+        <button onclick="showView('client-zapisz')" class="nav-item active flex flex-col items-center gap-0.5 w-16 py-1 text-sok-muted" data-view="client-zapisz">
+          <i class="fa-solid fa-calendar-plus text-lg"></i>
+          <span class="text-[10px]">Zapisz się</span>
+        </button>
+        <button onclick="showView('client-moje')" class="nav-item flex flex-col items-center gap-0.5 w-16 py-1 text-sok-muted" data-view="client-moje">
+          <i class="fa-solid fa-dumbbell text-lg"></i>
+          <span class="text-[10px]">Moje</span>
+        </button>
+        <button onclick="showView('client-historia')" class="nav-item flex flex-col items-center gap-0.5 w-16 py-1 text-sok-muted" data-view="client-historia">
+          <i class="fa-solid fa-clock-rotate-left text-lg"></i>
+          <span class="text-[10px]">Historia</span>
+        </button>
+        <button onclick="showView('client-galeria')" class="nav-item flex flex-col items-center gap-0.5 w-16 py-1 text-sok-muted" data-view="client-galeria">
+          <i class="fa-solid fa-images text-lg"></i>
+          <span class="text-[10px]">Galeria</span>
+        </button>
+        <button onclick="showView('client-profil')" class="nav-item flex flex-col items-center gap-0.5 w-16 py-1 text-sok-muted" data-view="client-profil">
+          <i class="fa-solid fa-user text-lg"></i>
+          <span class="text-[10px]">Profil</span>
+        </button>
+      </div>
+    </nav>
+  </div>
+
+  <!-- Modal: Potwierdzenie zapisu -->
+  <div id="modal-book" class="hidden fixed inset-0 z-[100] flex items-end sm:items-center justify-center">
+    <div class="absolute inset-0 bg-black/70" onclick="closeModal()"></div>
+    <div class="relative bg-sok-card w-full max-w-lg rounded-t-3xl sm:rounded-2xl p-5 border border-sok-border">
+      <h3 class="font-semibold text-lg mb-1">Potwierdź zapis</h3>
+      <p class="text-sm text-sok-muted mb-4" id="modal-book-info">Trening 18:00 • Indywidualny</p>
+      <div class="flex gap-3">
+        <button onclick="closeModal()" class="flex-1 py-3 rounded-xl border border-sok-border text-sm font-medium">Anuluj</button>
+        <button onclick="confirmBook()" class="flex-1 py-3 rounded-xl bg-sok-accent text-sm font-semibold">Zapisz się</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="hidden fixed top-16 left-1/2 -translate-x-1/2 z-[110] bg-sok-card border border-sok-border px-4 py-2.5 rounded-xl text-sm shadow-xl flex items-center gap-2">
+    <i class="fa-solid fa-check text-sok-success"></i>
+    <span id="toast-text">Zapisano</span>
+  </div>
+
+  <script src="js/common.js"></script>
+  <script src="js/client.js"></script>
+</body>
+</html>
