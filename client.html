@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <meta name="theme-color" content="#0f0f0f" />
+  <meta name="theme-color" content="#0a0a0a" />
   <title>SOK Treningi – Klient</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -33,7 +33,6 @@
 
   <div class="min-h-screen flex flex-col max-w-lg mx-auto relative">
 
-    <!-- Header -->
     <header class="sticky top-0 z-40 bg-sok-bg/95 backdrop-blur border-b border-sok-border px-4 py-3 flex items-center justify-between">
       <div>
         <h2 id="header-title" class="font-semibold text-lg leading-tight">Zapisz się</h2>
@@ -44,10 +43,8 @@
       </button>
     </header>
 
-    <!-- Content -->
     <main class="flex-1 overflow-y-auto pb-24">
 
-      <!-- Zapisz się -->
       <div id="client-zapisz" class="view active px-4 pt-4">
         <div class="mb-4">
           <p class="text-sm text-sok-muted mb-3">Dostępne terminy w najbliższych dniach</p>
@@ -62,12 +59,10 @@
         <div class="space-y-3" id="slots-list"></div>
       </div>
 
-      <!-- Moje treningi -->
       <div id="client-moje" class="view px-4 pt-4">
         <div class="space-y-3" id="my-trainings"></div>
       </div>
 
-      <!-- Historia + Karnet -->
       <div id="client-historia" class="view px-4 pt-4">
         <div class="card rounded-2xl p-4 mb-5">
           <div class="flex items-center justify-between mb-3">
@@ -86,7 +81,6 @@
         <div class="space-y-2" id="history-list"></div>
       </div>
 
-      <!-- Galeria -->
       <div id="client-galeria" class="view px-4 pt-4">
         <p class="text-sm text-sok-muted mb-4">Zdjęcia i filmy z treningów</p>
         <div class="grid grid-cols-2 gap-3">
@@ -106,7 +100,6 @@
         <p class="text-center text-xs text-sok-muted mt-6">Materiałów dodaje trener</p>
       </div>
 
-      <!-- Profil -->
       <div id="client-profil" class="view px-4 pt-4">
         <div class="flex flex-col items-center mb-6">
           <div class="w-24 h-24 rounded-full bg-sok-card border-2 border-sok-border flex items-center justify-center mb-3 relative">
@@ -135,7 +128,6 @@
 
     </main>
 
-    <!-- Bottom Navigation -->
     <nav class="fixed bottom-0 left-0 right-0 max-w-lg mx-auto bg-sok-bg/95 backdrop-blur border-t border-sok-border safe-bottom z-50">
       <div class="flex justify-around py-2">
         <button onclick="showView('client-zapisz')" class="nav-item active flex flex-col items-center gap-0.5 w-16 py-1 text-sok-muted" data-view="client-zapisz">
@@ -162,7 +154,6 @@
     </nav>
   </div>
 
-  <!-- Modal: Potwierdzenie zapisu -->
   <div id="modal-book" class="hidden fixed inset-0 z-[100] flex items-end sm:items-center justify-center">
     <div class="absolute inset-0 bg-black/70" onclick="closeModal()"></div>
     <div class="relative bg-sok-card w-full max-w-lg rounded-t-3xl sm:rounded-2xl p-5 border border-sok-border">
@@ -175,7 +166,6 @@
     </div>
   </div>
 
-  <!-- Toast -->
   <div id="toast" class="hidden fixed top-16 left-1/2 -translate-x-1/2 z-[110] bg-sok-card border border-sok-border px-4 py-2.5 rounded-xl text-sm shadow-xl flex items-center gap-2">
     <i class="fa-solid fa-check text-sok-success"></i>
     <span id="toast-text">Zapisano</span>
