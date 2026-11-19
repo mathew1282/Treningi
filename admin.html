@@ -113,6 +113,17 @@
 
       <!-- Ustawienia -->
       <div id="admin-ustawienia" class="view px-4 pt-4">
+        <div class="card rounded-2xl p-4 mb-4">
+          <h3 class="font-semibold text-sm mb-1">Zakres godzin treningowych</h3>
+          <p class="text-[11px] text-sok-muted mb-3">Globalnie – w jakich godzinach w ogóle prowadzisz treningi (np. 06:00–22:00). Poza tym zakresem kafelki się nie pokazują.</p>
+          <div class="flex gap-2 items-center mb-3">
+            <input type="time" id="global-train-from" value="06:00" class="flex-1 bg-sok-bg border border-sok-border rounded-xl px-3 py-2.5 text-sm" />
+            <span class="text-sok-muted">–</span>
+            <input type="time" id="global-train-to" value="22:00" class="flex-1 bg-sok-bg border border-sok-border rounded-xl px-3 py-2.5 text-sm" />
+          </div>
+          <button onclick="saveGlobalTrainHours()" class="w-full py-2.5 rounded-xl bg-sok-accent text-sm font-semibold">Zapisz zakres</button>
+        </div>
+
         <div class="space-y-3">
           <button class="w-full card rounded-xl p-4 flex items-center gap-3 text-left">
             <div class="w-10 h-10 rounded-xl bg-emerald-500/20 flex items-center justify-center text-emerald-400">
@@ -191,17 +202,18 @@
         </div>
 
         <div id="work-hours-section">
-          <label class="text-xs text-sok-muted mb-1.5 block">Godziny pracy</label>
+          <label class="text-xs text-sok-muted mb-1.5 block">Praca etat (godziny wykluczone z treningów)</label>
           <div class="flex gap-2 items-center">
-            <input type="time" id="work-from" value="07:00" class="flex-1 bg-sok-bg border border-sok-border rounded-xl px-3 py-2.5 text-sm" />
+            <input type="time" id="work-from" value="07:00" onchange="onWorkHoursChange()" class="flex-1 bg-sok-bg border border-sok-border rounded-xl px-3 py-2.5 text-sm" />
             <span class="text-sok-muted">–</span>
-            <input type="time" id="work-to" value="19:00" class="flex-1 bg-sok-bg border border-sok-border rounded-xl px-3 py-2.5 text-sm" />
+            <input type="time" id="work-to" value="19:00" onchange="onWorkHoursChange()" class="flex-1 bg-sok-bg border border-sok-border rounded-xl px-3 py-2.5 text-sm" />
           </div>
+          <p class="text-[11px] text-sok-muted mt-1">W tych godzinach nie prowadzisz treningów.</p>
         </div>
 
         <div id="train-hours-section">
-          <label class="text-xs text-sok-muted mb-1.5 block">Godziny dostępne na treningi (1h)</label>
-          <p class="text-[11px] text-sok-muted mb-2">Zaznacz godziny, w których klienci mogą się zapisywać. Bez zaznaczenia – dzień zablokowany.</p>
+          <label class="text-xs text-sok-muted mb-1.5 block">Godziny treningów (1h)</label>
+          <p class="text-[11px] text-sok-muted mb-2">Zakres z ustawień minus etat. Kliknij godziny, które chcesz udostępnić. Bez zaznaczenia – dzień zablokowany.</p>
           <div id="train-slots-grid" class="grid grid-cols-4 gap-2">
             <!-- filled by JS -->
           </div>
