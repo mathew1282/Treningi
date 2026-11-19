@@ -207,16 +207,95 @@ function updateShiftTypeUI() {
   document.getElementById('train-hours-section').style.display = show ? 'block' : 'none';
 }
 
+function timeToMin(t) {
+  if (!t) return 0;
+  var p = t.split(':');
+  return parseInt(p[0], 10) * 60 + parseInt(p[1], 10);
+}
+
+// Czy godzina h leży w przedziale [from, to) — obsługuje przejście przez północ
+function isInRange(h, fromStr, toStr) {
+  var slot = timeToMin(h);
+  var from = timeToMin(fromStr);
+  var to = timeToMin(toStr);
+  if (from === to) return true;
+  if (from < to) return slot >= from && slot < to;
+  return slot >= from || slot < to;
+}
+
+function loadGlobalTrain() {
+  try {
+    var g = JSON.parse(localStorage.getItem('sok_global_train') || '{}');
+    return { from: g.from || '06:00', to: g.to || '22:00' };
+  } catch (e) {
+    return { from: '06:00', to: '22:00' };
+  }
+}
+
+function saveGlobalTrainHours() {
+  var from = document.getElementById('global-train-from').value || '06:00';
+  var to = document.getElementById('global-train-to').value || '22:00';
+  localStorage.setItem('sok_global_train', JSON.stringify({ from: from, to: to }));
+  showToast('Zakres treningów zapisany: ' + from + '–' + to);
+}
+
+function loadGlobalTrainIntoForm() {
+  var g = loadGlobalTrain();
+  var elFrom = document.getElementById('global-train-from');
+  var elTo = document.getElementById('global-train-to');
+  if (elFrom) elFrom.value = g.from;
+  if (elTo) elTo.value = g.to;
+}
+
+// Wszystkie sloty 1h w globalnym zakresie treningów
+function getSlotsInGlobalRange() {
+  var g = loadGlobalTrain();
+  var all = [];
+  for (var h = 0; h < 24; h++) {
+    var s = (h < 10 ? '0' : '') + h + ':00';
+    if (isInRange(s, g.from, g.to)) all.push(s);
+  }
+  return all;
+}
+
+// Dostępne = w zakresie treningów ORAZ POZA etatem
+function getAllowedSlots() {
+  var workFrom = document.getElementById('work-from').value || '07:00';
+  var workTo = document.getElementById('work-to').value || '19:00';
+  return getSlotsInGlobalRange().filter(function(h) {
+    return !isInRange(h, workFrom, workTo);
+  });
+}
+
+function onWorkHoursChange() {
+  var allowed = new Set(getAllowedSlots());
+  selectedTrainHours.forEach(function(h) {
+    if (!allowed.has(h)) selectedTrainHours.delete(h);
+  });
+  renderTrainSlotsGrid();
+}
+
 function renderTrainSlotsGrid() {
-  var slots = currentShiftType === 'noc' ? NIGHT_SLOTS : DAY_SLOTS;
+  var globalSlots = getSlotsInGlobalRange();
+  var allowed = new Set(getAllowedSlots());
   var grid = document.getElementById('train-slots-grid');
-  grid.innerHTML = slots.map(function(h) {
+  if (!globalSlots.length) {
+    grid.innerHTML = '<p class="text-xs text-sok-muted col-span-4">Ustaw zakres treningów w zakładce Więcej.</p>';
+    return;
+  }
+  grid.innerHTML = globalSlots.map(function(h) {
+    var ok = allowed.has(h);
     var active = selectedTrainHours.has(h);
+    if (!ok) {
+      return '<button type="button" disabled title="Etat" class="py-2 rounded-lg text-xs font-medium border border-sok-border text-zinc-600 opacity-40 cursor-not-allowed line-through">' + h + '</button>';
+    }
     return '<button type="button" onclick="toggleTrainHour(\'' + h + '\')" class="py-2 rounded-lg text-xs font-medium border transition ' + (active ? 'bg-sok-accent border-sok-accent text-white' : 'border-sok-border text-sok-muted') + '">' + h + '</button>';
   }).join('');
 }
 
 function toggleTrainHour(h) {
+  var allowed = new Set(getAllowedSlots());
+  if (!allowed.has(h)) return;
   if (selectedTrainHours.has(h)) selectedTrainHours.delete(h);
   else selectedTrainHours.add(h);
   renderTrainSlotsGrid();
@@ -227,11 +306,13 @@ function saveShift() {
   if (currentShiftType === 'wolne') {
     shifts[selectedDate] = { type: 'wolne', trainHours: [] };
   } else {
+    var allowed = new Set(getAllowedSlots());
+    var cleanHours = Array.from(selectedTrainHours).filter(function(h) { return allowed.has(h); }).sort();
     shifts[selectedDate] = {
       type: currentShiftType,
       workFrom: document.getElementById('work-from').value,
       workTo: document.getElementById('work-to').value,
-      trainHours: Array.from(selectedTrainHours).sort()
+      trainHours: cleanHours
     };
   }
   saveShifts(shifts);
